@@ -1,0 +1,131 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Task3
+{
+    public partial class Form6 : Form
+    {
+        int questionnumber = 1;
+        int currentscore;
+        int totalquestions;
+        int correctanswers;
+        bool years1To3Selected = false;
+
+        public Form6()
+        {
+            InitializeComponent();
+            DisplayQuestion(questionnumber);
+            totalquestions = 5;
+        }
+        private void CheckAnswerEvent(object sender, EventArgs e)
+        {
+            var senderObject = (Button)sender;
+            int buttonTag = Convert.ToInt32(senderObject.Tag);
+            if (buttonTag == correctanswers)
+            {
+                MessageBox.Show("Correct!", "Message", MessageBoxButtons.OK);
+                currentscore++;
+            }
+            else
+            {
+                MessageBox.Show("Incorrect:(", "Message", MessageBoxButtons.OK);
+            }
+            if (questionnumber == totalquestions)
+            {
+                MessageBox.Show(
+                    "You have completed the QUIZZES!" + Environment.NewLine +
+                    "You have answered " + currentscore + " questions correctly." + Environment.NewLine +
+                    "Click OK if you wish to play again"
+                 );
+
+                currentscore = 0;
+                questionnumber = 0;
+                DisplayQuestion(questionnumber);
+            }
+            questionnumber++;
+            DisplayQuestion(questionnumber);
+        }
+
+        private void DisplayQuestion(int questionnumber)
+        {
+            if (years1To3Selected == true)
+            {
+                switch (questionnumber)
+                {
+                    case 1:
+                        label2.Text = "blablabla?";
+                        button3.Text = "bla?";
+                        button4.Text = "Ok";
+                        button5.Text = "Orange";
+                        button6.Text = "Red";
+                        correctanswers = 1;
+                        break;
+
+                    case 2:
+                        label2.Text = "bloblobloblo?";
+                        button3.Text = "bla?";
+                        button4.Text = "Ok";
+                        button5.Text = "Orange";
+                        button6.Text = "Red";
+                        correctanswers = 2;
+                        break;
+                }
+            }
+            else
+            {
+                switch (questionnumber)
+                {
+                case 1:
+                    label2.Text = "bleeeeeeee?";
+                    button3.Text = "bla?";
+                    button4.Text = "Ok";
+                    button5.Text = "Orange";
+                    button6.Text = "Red";
+                    correctanswers = 3;
+                    break;
+                case 2:
+                    label2.Text = "bleeeeeeorioeeee?";
+                    button3.Text = "bla?";
+                    button4.Text = "Ok";
+                    button5.Text = "Orange";
+                    button6.Text = "Red";
+                    correctanswers = 2;
+                    break;
+                case 3:
+                    label2.Text = "bleinnnnnnnn?";
+                    button3.Text = "bla?";
+                    button4.Text = "Ok";
+                    button5.Text = "Orange";
+                    button6.Text = "Red";
+                    correctanswers = 4;
+                    break;
+                }
+            }
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            years1To3Selected = true;
+            questionnumber = 1;
+            DisplayQuestion(questionnumber);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            years1To3Selected = false;
+            questionnumber = 1;
+            DisplayQuestion(questionnumber);
+        }
+
+        private void Return_Click(object sender, EventArgs e)
+        {
+                this.Close();
+            }
+        }
+    }
