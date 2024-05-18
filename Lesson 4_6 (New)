@@ -18,7 +18,6 @@ namespace Task3
         // Dictionary to store the count of correct drops for each label
         private Dictionary<Label, int> correctDropCount = new Dictionary<Label, int>();
 
-        // Constructor
         public Lesson4_6()
         {
             InitializeComponent();
@@ -90,16 +89,16 @@ namespace Task3
                 // Check if the dropped picture box matches the expected picture box
                 if (pictureBoxName == expectedName)
                 {
-                    // Display "Correct!" and change background color to green
+                    // Display "Correct!" and change background color to green as it is a correct answer
                     label.Text = "Correct!";
                     label.BackColor = Color.Green;
                     correctDropCount[label]++;
-                    // Check if all labels have correct drops
+                    // Check if all labels have correct drops/win conditions checking
                     CheckAllLabelsCorrect();
                 }
                 else
                 {
-                    // Display "Try Again" and change background color to red
+                    // Display "Try Again" and change background color to red as it is an incorrect answer
                     label.Text = "Try Again";
                     label.BackColor = Color.Red;
                 }
@@ -109,7 +108,7 @@ namespace Task3
         // Event handler for setting button click event
         private void setting_Click(object sender, EventArgs e)
         {
-            // Open settingingame2 form
+            // Open settingingame2 form (it is the same as ingamesetting for lesson1_3 and lesson1_3part2)
             settingingame2 settingingame = new settingingame2();
             settingingame.StartPosition = FormStartPosition.CenterScreen;
             settingingame.Location = this.Location;
@@ -120,22 +119,22 @@ namespace Task3
         // Event handler for next button click event
         private void next_Click(object sender, EventArgs e)
         {
-            // Move to the next step of the lesson
+            // Move to the next step of the lesson as the player click the Next button
             currentStep++;
             switch (currentStep)
             {
                 case 2:
-                    // Hide label5 and show label7
+                    // Hide instruction 1 and show instruction 2
                     label5.Visible = false;
                     label7.Visible = true;
                     break;
                 case 3:
-                    // Hide label7 and show label8
+                    // Hide instruction 2 and show instruction 3
                     label7.Visible = false;
                     label8.Visible = true;
                     break;
                 default:
-                    // Open Lesson4_6part2 form and hide current form
+                    // Open Lesson4_6part2 form (the second level of the lesson) and hide the current lesson
                     Lesson4_6part2 lesson4_6Part2 = new Lesson4_6part2();
                     lesson4_6Part2.StartPosition = FormStartPosition.CenterScreen;
                     lesson4_6Part2.Location = this.Location;
@@ -145,7 +144,7 @@ namespace Task3
             }
         }
 
-        // Method to check if all labels have correct drops
+        // Method to check if all labels have correct drops (Win conditions)
         private void CheckAllLabelsCorrect()
         {
             bool allCorrect = true;
@@ -159,7 +158,7 @@ namespace Task3
             }
             if (allCorrect)
             {
-                // Show message box when all labels have correct drops
+                // Show message box when all labels have correct drops (the player has completed the game)
                 MessageBox.Show("YIPPEEEEE, Now...you should be ready...for the next challenge.");
             }
         }
