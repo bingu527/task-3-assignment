@@ -18,28 +18,36 @@ namespace Task3
             InitializeComponent();
         }
 
+        // Event handler for the Return button click event
         private void Return_Click(object sender, EventArgs e)
         {
+            // Close the current form
             this.Close();
         }
 
+        // Event handler for the start1_3 button click event
         private void start1_3_Click(object sender, EventArgs e)
         {
+            // Open lesson1_3 form (lesson for years 1-3)
             lesson1_3 year1_3 = new lesson1_3();
             year1_3.Owner = this;
             year1_3.StartPosition = FormStartPosition.CenterScreen;
             year1_3.Location = this.Location;
             year1_3.Show();
+            // Hide the current form
             this.Hide();
         }
 
+        // Event handler for the start4_6 button click event
         private void start4_6_Click(object sender, EventArgs e)
         {
+            // Open Lesson4_6 form (lesson for years 4-6)
             Lesson4_6 year4_6 = new Lesson4_6();
             year4_6.Owner = this;
             year4_6.StartPosition = FormStartPosition.CenterScreen;
             year4_6.Location = this.Location;
             year4_6.Show();
+            // Hide the current form
             this.Hide();
         }
     }
