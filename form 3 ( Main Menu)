@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Media;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Task3
+{
+    public partial class Form3 : Form
+    {
+        private SoundPlayer bgmusic;
+        private string username;
+        public Form3(string username)
+        {
+            InitializeComponent();
+            this.username = username;
+            name.Text = username;
+            bgmusic = new SoundPlayer();
+            bgmusic.SoundLocation = @"C:\Users\Dat Tran\Downloads\Bingu\513869__mrthenoronha__cartoon-game-theme-loop-5.wav";
+            bgmusic.PlayLooping();
+        }
+        private void setting_Click(object sender, EventArgs e)
+        {
+            Form5 Settings = new Form5();
+            Settings.Owner = this;
+            Settings.StartPosition = FormStartPosition.CenterScreen;
+            Settings.Location = this.Location;
+            Settings.Show();
+        }
+
+        private void play_Click(object sender, EventArgs e)
+        {
+            Form4 games = new Form4();
+            games.Owner = this;
+            games.StartPosition = FormStartPosition.CenterScreen;
+            games.Location = this.Location;
+            games.Show();
+        }
+        private void Form3_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void music_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("This will turn off your music and unable to be turned on again, do you wish to continue?","Music", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.Yes)
+            {
+                bgmusic.Stop();
+            }
+            else
+            {
+             
+            }
+        }
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            Form6 quizzes = new Form6();
+            quizzes.Owner = this;
+            quizzes.StartPosition = FormStartPosition.CenterScreen;
+            quizzes.Location = this.Location;
+            quizzes.Show();
+        }
+    }
+}
