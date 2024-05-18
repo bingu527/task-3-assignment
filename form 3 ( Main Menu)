@@ -13,19 +13,34 @@ namespace Task3
 {
     public partial class Form3 : Form
     {
+        // SoundPlayer object to handle background music
         private SoundPlayer bgmusic;
+        
+        // Variable to store the username passed from the previous form
         private string username;
+
         public Form3(string username)
         {
             InitializeComponent();
+            
+            // Assign the passed username to the class variable
             this.username = username;
+            
+            // Set the username label to the passed username
             name.Text = username;
+            
+            // Initialize SoundPlayer object and set the sound location to the background music file
             bgmusic = new SoundPlayer();
             bgmusic.SoundLocation = @"C:\Users\Dat Tran\Downloads\Bingu\513869__mrthenoronha__cartoon-game-theme-loop-5.wav";
+            
+            // Start playing the background music in a loop
             bgmusic.PlayLooping();
         }
+
+        // Event handler for the Settings button click event
         private void setting_Click(object sender, EventArgs e)
         {
+            // Open the Main Menu Settings form (Form 5)
             Form5 Settings = new Form5();
             Settings.Owner = this;
             Settings.StartPosition = FormStartPosition.CenterScreen;
@@ -33,38 +48,37 @@ namespace Task3
             Settings.Show();
         }
 
+        // Event handler for the Play button click event
         private void play_Click(object sender, EventArgs e)
         {
+            // Open Form 4 (Lessons Choosing Menu)
             Form4 games = new Form4();
             games.Owner = this;
             games.StartPosition = FormStartPosition.CenterScreen;
             games.Location = this.Location;
             games.Show();
         }
-        private void Form3_Load(object sender, EventArgs e)
-        {
 
-        }
-
+        // Event handler for the Music button click event
         private void music_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("This will turn off your music and unable to be turned on again, do you wish to continue?","Music", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            // Ask for confirmation before turning off the music as it will be turned off permanently unless players restart the application
+            DialogResult dr = MessageBox.Show("This will turn off your music and unable to be turned on again, do you wish to continue?", "Music", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == DialogResult.Yes)
             {
+                // Stop playing the background music
                 bgmusic.Stop();
             }
             else
             {
-             
+                // If user selects 'No', do nothing
             }
         }
+
+        // Event handler for the Quiz button click event
         private void pictureBox2_Click(object sender, EventArgs e)
         {
+            // Open the Quizzes form
             Form6 quizzes = new Form6();
             quizzes.Owner = this;
-            quizzes.StartPosition = FormStartPosition.CenterScreen;
-            quizzes.Location = this.Location;
-            quizzes.Show();
-        }
-    }
-}
+          
