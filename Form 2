@@ -13,58 +13,84 @@ namespace Task3
 {
     public partial class Form2 : Form
     {
+        // Variable to store the username passed from the previous form
         private string username;
 
+        // Duration for the progress bar to complete loading (5 seconds)
         private int durationInSeconds = 5;
+
         public Form2(string username)
         {
             InitializeComponent();
+            
+            // Set the maximum value for the progress bar to the duration in seconds
             progressBar1.Maximum = durationInSeconds;
+            
+            // Assign the username passed from the previous form
             this.username = username;
         }
+
         private void progressBar1_Click(object sender, EventArgs e)
         {
 
         }
 
+        // Event handler for the Start button click event
         private void Start_Click(object sender, EventArgs e)
         {
+            // Start the timer if it's not already running (this will prevent players from clicking the button again and make the progress bar reset its value)
             if (!timer1.Enabled)
             {
+                // Reset progress bar value to 0
                 progressBar1.Value = 0;
+                
+                // Set the interval of the timer to 1000 milliseconds (1 second) and start the timer
                 timer1.Interval = 1000;
                 timer1.Start();
             }
         }
 
+        // Event handler for the timer tick event
         private void timer1_Tick(object sender, EventArgs e)
         {
+            // Increment the value of the progress bar by 1
             progressBar1.Value++;
 
+            // Check if the progress bar value reaches the maximum value
             if (progressBar1.Value >= progressBar1.Maximum)
             {
+                // Stop the timer
                 timer1.Stop();
+                // Display a message indicating that loading is completed
                 MessageBox.Show("Loading completed, enjoy the game!");
+                // Open Form3 (Main Menu) passing the username to it
                 Form3 MainMenu = new Form3(username);
+                // Set the owner of Form3 to this form
                 MainMenu.Owner = this;
+                // Set the start position of Form3 and position it relative to this form
                 MainMenu.StartPosition = FormStartPosition.Manual;
                 MainMenu.Location = this.Location;
+                // Show Form3 and hide this form
                 MainMenu.Show();
                 this.Hide();
             }
         }
 
+        // Event handler for the Return button click event
         private void Return_Click_1(object sender, EventArgs e)
         {
+            // Ask for confirmation before going back
             DialogResult dr = MessageBox.Show("Are you sure you want to go back?", "Confirmation message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == DialogResult.Yes)
             {
+                // Show the the previous form
                 this.Owner.Show();
+                // Close this form
                 this.Close();
             }
             else
             {
-
+                // If user selects 'No', do nothing
             }
         }
     }
