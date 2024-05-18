@@ -1,0 +1,132 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Task3
+{
+    public partial class Lesson4_6 : Form
+    {
+        private int currentStep = 1;
+        private Dictionary<Label, string> initialLabelTexts = new Dictionary<Label, string>();
+        public Lesson4_6()
+        {
+            InitializeComponent();
+            // Assign images to picture boxes
+            pictureBox1.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\1.png");
+            pictureBox2.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\2.png");
+            pictureBox3.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\3.png");
+            pictureBox4.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\4.png");
+
+            initialLabelTexts[label1] = label1.Text;
+            initialLabelTexts[label2] = label2.Text;
+            initialLabelTexts[label3] = label3.Text;
+            initialLabelTexts[label4] = label4.Text;
+
+            label1.DragEnter += new DragEventHandler(label_DragEnter);
+            label1.DragDrop += new DragEventHandler(label_DragDrop);
+            label2.DragEnter += new DragEventHandler(label_DragEnter);
+            label2.DragDrop += new DragEventHandler(label_DragDrop);
+            label3.DragEnter += new DragEventHandler(label_DragEnter);
+            label3.DragDrop += new DragEventHandler(label_DragDrop);
+            label4.DragEnter += new DragEventHandler(label_DragEnter);
+            label4.DragDrop += new DragEventHandler(label_DragDrop);
+        }
+
+        private void pictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+            if (pictureBox != null && pictureBox.Image != null)
+            {
+                DataObject dragData = new DataObject();
+                dragData.SetData(DataFormats.Bitmap, pictureBox.Image);
+                dragData.SetData(DataFormats.Text, pictureBox.Name);
+                DoDragDrop(dragData, DragDropEffects.Copy | DragDropEffects.Move);
+            }
+        }
+
+        private void label_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.Bitmap) && e.Data.GetDataPresent(DataFormats.Text))
+            {
+                e.Effect = DragDropEffects.Copy | DragDropEffects.Move;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void label_DragDrop(object sender, DragEventArgs e)
+        {
+            Label label = sender as Label;
+            if (label != null)
+            {
+                string pictureBoxName = (string)e.Data.GetData(DataFormats.Text);
+                string expectedName = "pictureBox" + (tableLayoutPanel1.GetRow(label) + 1);
+
+                if (pictureBoxName == expectedName)
+                {
+                    label.Text = "Correct!";
+                    label.BackColor = Color.Green;
+                }
+                else
+                {
+                    label.Text = "Try Again";
+                    label.BackColor = Color.Red;
+                }
+            }
+        }
+
+        private void setting_Click(object sender, EventArgs e)
+        {
+            settingingame2 settingingame = new settingingame2();
+            settingingame.StartPosition = FormStartPosition.CenterScreen;
+            settingingame.Location = this.Location;
+            settingingame.Owner = this;
+            settingingame.Show();
+        }
+
+        private void next_Click(object sender, EventArgs e)
+        {
+            currentStep++;
+            switch (currentStep)
+            {
+                case 2:
+                    label5.Visible = false;
+                    label7.Visible = true;
+                    break;
+                case 3:
+                    label7.Visible = false;
+                    label8.Visible = true;
+                    break;
+                default:
+                    Lesson4_6part2 lesson4_6Part2 = new Lesson4_6part2();
+                    lesson4_6Part2.StartPosition = FormStartPosition.CenterScreen;
+                    lesson4_6Part2.Location = this.Location;
+                    lesson4_6Part2.Show();
+                    this.Hide();
+                    break;
+            }
+        }
+
+        private void tryagain_Click(object sender, EventArgs e)
+        {
+            foreach (var entry in initialLabelTexts)
+            {
+                entry.Key.Text = entry.Value;
+                entry.Key.BackColor = SystemColors.Control;
+            }
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
