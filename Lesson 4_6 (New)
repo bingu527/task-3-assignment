@@ -1,0 +1,167 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Task3
+{
+    public partial class Lesson4_6 : Form
+    {
+        // Variable to track the current step of the lesson
+        private int currentStep = 1;
+        
+        // Dictionary to store the count of correct drops for each label
+        private Dictionary<Label, int> correctDropCount = new Dictionary<Label, int>();
+
+        // Constructor
+        public Lesson4_6()
+        {
+            InitializeComponent();
+
+            // Assign images to picture boxes
+            pictureBox1.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\1.png");
+            pictureBox2.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\2.png");
+            pictureBox3.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\3.png");
+            pictureBox4.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\4.png");
+
+            // Initialize correct drop count for each label to 0
+            correctDropCount[label1] = 0;
+            correctDropCount[label2] = 0;
+            correctDropCount[label3] = 0;
+            correctDropCount[label4] = 0;
+
+            // Attach drag enter and drag drop event handlers to labels
+            label1.DragEnter += new DragEventHandler(label_DragEnter);
+            label1.DragDrop += new DragEventHandler(label_DragDrop);
+            label2.DragEnter += new DragEventHandler(label_DragEnter);
+            label2.DragDrop += new DragEventHandler(label_DragDrop);
+            label3.DragEnter += new DragEventHandler(label_DragEnter);
+            label3.DragDrop += new DragEventHandler(label_DragDrop);
+            label4.DragEnter += new DragEventHandler(label_DragEnter);
+            label4.DragDrop += new DragEventHandler(label_DragDrop);
+        }
+
+        // Event handler for mouse down event of picture boxes
+        private void pictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+            if (pictureBox != null && pictureBox.Image != null)
+            {
+                // Create drag data containing image and name of the picture box
+                DataObject dragData = new DataObject();
+                dragData.SetData(DataFormats.Bitmap, pictureBox.Image);
+                dragData.SetData(DataFormats.Text, pictureBox.Name);
+                // Start drag and drop operation
+                DoDragDrop(dragData, DragDropEffects.Copy | DragDropEffects.Move);
+            }
+        }
+
+        // Event handler for drag enter event of labels
+        private void label_DragEnter(object sender, DragEventArgs e)
+        {
+            // Check if drag data contains bitmap and text
+            if (e.Data.GetDataPresent(DataFormats.Bitmap) && e.Data.GetDataPresent(DataFormats.Text))
+            {
+                // Allow copy or move effect
+                e.Effect = DragDropEffects.Copy | DragDropEffects.Move;
+            }
+            else
+            {
+                // Disallow drop
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        // Event handler for drag drop event of labels
+        private void label_DragDrop(object sender, DragEventArgs e)
+        {
+            Label label = sender as Label;
+            if (label != null)
+            {
+                // Get name of the picture box being dropped
+                string pictureBoxName = (string)e.Data.GetData(DataFormats.Text);
+                string expectedName = "pictureBox" + (tableLayoutPanel1.GetRow(label) + 1);
+
+                // Check if the dropped picture box matches the expected picture box
+                if (pictureBoxName == expectedName)
+                {
+                    // Display "Correct!" and change background color to green
+                    label.Text = "Correct!";
+                    label.BackColor = Color.Green;
+                    correctDropCount[label]++;
+                    // Check if all labels have correct drops
+                    CheckAllLabelsCorrect();
+                }
+                else
+                {
+                    // Display "Try Again" and change background color to red
+                    label.Text = "Try Again";
+                    label.BackColor = Color.Red;
+                }
+            }
+        }
+
+        // Event handler for setting button click event
+        private void setting_Click(object sender, EventArgs e)
+        {
+            // Open settingingame2 form
+            settingingame2 settingingame = new settingingame2();
+            settingingame.StartPosition = FormStartPosition.CenterScreen;
+            settingingame.Location = this.Location;
+            settingingame.Owner = this;
+            settingingame.Show();
+        }
+
+        // Event handler for next button click event
+        private void next_Click(object sender, EventArgs e)
+        {
+            // Move to the next step of the lesson
+            currentStep++;
+            switch (currentStep)
+            {
+                case 2:
+                    // Hide label5 and show label7
+                    label5.Visible = false;
+                    label7.Visible = true;
+                    break;
+                case 3:
+                    // Hide label7 and show label8
+                    label7.Visible = false;
+                    label8.Visible = true;
+                    break;
+                default:
+                    // Open Lesson4_6part2 form and hide current form
+                    Lesson4_6part2 lesson4_6Part2 = new Lesson4_6part2();
+                    lesson4_6Part2.StartPosition = FormStartPosition.CenterScreen;
+                    lesson4_6Part2.Location = this.Location;
+                    lesson4_6Part2.Show();
+                    this.Hide();
+                    break;
+            }
+        }
+
+        // Method to check if all labels have correct drops
+        private void CheckAllLabelsCorrect()
+        {
+            bool allCorrect = true;
+            foreach (var count in correctDropCount.Values)
+            {
+                if (count < 1)
+                {
+                    allCorrect = false;
+                    break;
+                }
+            }
+            if (allCorrect)
+            {
+                // Show message box when all labels have correct drops
+                MessageBox.Show("YIPPEEEEE, Now...you should be ready...for the next challenge.");
+            }
+        }
+    }
+}
