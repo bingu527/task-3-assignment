@@ -1,0 +1,43 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Task3
+{
+    public partial class Form5 : Form
+    {
+        public Form5()
+        {
+            InitializeComponent();
+        }
+
+        private void resume_Click(object sender, EventArgs e)
+        {
+            this.Owner.Show();
+            this.Hide();
+        }
+
+        private void aboutme_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("I'm Nghia, enjoy the game.", "About Me", MessageBoxButtons.OK, MessageBoxIcon.None);
+        }
+        private void exit_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("ARE YOU SURE YOU WANT TO QUIT??", "CONFIRMATION MESSAGE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dr == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+            else
+            {
+
+            }
+        }
+    }
+}
