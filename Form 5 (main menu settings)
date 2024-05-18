@@ -16,27 +16,33 @@ namespace Task3
         {
             InitializeComponent();
         }
-
+        // Event handler for the Resume button click event
         private void resume_Click(object sender, EventArgs e)
         {
+            //Show the Owner Form (Main Menu)
             this.Owner.Show();
+            //Hide the current form
             this.Hide();
         }
-
+        // Event handler for the About me button click event
         private void aboutme_Click(object sender, EventArgs e)
         {
+            //A message box will appear with information about the creator as players click the button
             MessageBox.Show("I'm Nghia, enjoy the game.", "About Me", MessageBoxButtons.OK, MessageBoxIcon.None);
         }
+        // Event handler for the Exit button click event
         private void exit_Click(object sender, EventArgs e)
         {
+            //A message box that asks for players' confirmation to close the application 
             DialogResult dr = MessageBox.Show("ARE YOU SURE YOU WANT TO QUIT??", "CONFIRMATION MESSAGE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dr == DialogResult.Yes)
             {
+                //If players click Yes, every forms that are currently running will be closed, shutting down the entire application
                 Application.Exit();
             }
             else
             {
-
+                //If players click no, do nothing
             }
         }
     }
