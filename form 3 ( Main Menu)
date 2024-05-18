@@ -26,7 +26,7 @@ namespace Task3
             // Assign the passed username to the class variable
             this.username = username;
             
-            // Set the username label to the passed username
+            // Set the username label to the passed username (the username label is displayed on the profile bar)
             name.Text = username;
             
             // Initialize SoundPlayer object and set the sound location to the background music file
