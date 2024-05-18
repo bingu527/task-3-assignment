@@ -1,0 +1,144 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Task3
+{
+    public partial class Lesson4_6part2 : Form
+    {
+        private Dictionary<Label, int> correctDropCount = new Dictionary<Label, int>();
+        public Lesson4_6part2()
+        {
+            InitializeComponent();
+            pictureBox1.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\=1.png");
+            pictureBox2.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\=7500.png");
+            pictureBox3.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\=999.png");
+            pictureBox4.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\=380.png");
+            pictureBox5.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\=100.png");
+            pictureBox6.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\=1 (2).png");
+            pictureBox7.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\=7500 (2).png");
+            pictureBox8.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\=999 (2).png");
+            pictureBox9.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\=380 (2).png");
+            pictureBox10.Image = Image.FromFile("C:\\Users\\Dat Tran\\Downloads\\Task3-20240514T072319Z-001\\Task3\\Images\\=100(2).png");
+
+            correctDropCount[label1] = 0;
+            correctDropCount[label2] = 0;
+            correctDropCount[label3] = 0;
+            correctDropCount[label4] = 0;
+            correctDropCount[label5] = 0;
+
+            label1.DragEnter += new DragEventHandler(label_DragEnter);
+            label1.DragDrop += new DragEventHandler(label_DragDrop);
+            label2.DragEnter += new DragEventHandler(label_DragEnter);
+            label2.DragDrop += new DragEventHandler(label_DragDrop);
+            label3.DragEnter += new DragEventHandler(label_DragEnter);
+            label3.DragDrop += new DragEventHandler(label_DragDrop);
+            label4.DragEnter += new DragEventHandler(label_DragEnter);
+            label4.DragDrop += new DragEventHandler(label_DragDrop);
+            label5.DragEnter += new DragEventHandler(label_DragEnter);
+            label5.DragDrop += new DragEventHandler(label_DragDrop);
+
+        }
+
+        private void pictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+            if (pictureBox != null && pictureBox.Image != null)
+            {
+                DataObject dragData = new DataObject();
+                dragData.SetData(DataFormats.Bitmap, pictureBox.Image);
+                dragData.SetData(DataFormats.Text, pictureBox.Name);
+                DoDragDrop(dragData, DragDropEffects.Copy | DragDropEffects.Move);
+            }
+        }
+
+        private void label_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.Bitmap) && e.Data.GetDataPresent(DataFormats.Text))
+            {
+                e.Effect = DragDropEffects.Copy | DragDropEffects.Move;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+        private void label_DragDrop(object sender, DragEventArgs e)
+        {
+            Label label = sender as Label;
+            if (label != null)
+            {
+                string pictureBoxName = (string)e.Data.GetData(DataFormats.Text);
+                int labelRow = tableLayoutPanel1.GetRow(label);
+                bool isCorrect = false;
+                if (labelRow == 0 && (pictureBoxName == "pictureBox1" || pictureBoxName == "pictureBox6")) isCorrect = true;
+                if (labelRow == 1 && (pictureBoxName == "pictureBox2" || pictureBoxName == "pictureBox7")) isCorrect = true;
+                if (labelRow == 2 && (pictureBoxName == "pictureBox3" || pictureBoxName == "pictureBox8")) isCorrect = true;
+                if (labelRow == 3 && (pictureBoxName == "pictureBox4" || pictureBoxName == "pictureBox9")) isCorrect = true;
+                if (labelRow == 4 && (pictureBoxName == "pictureBox5" || pictureBoxName == "pictureBox10")) isCorrect = true;
+
+                if (isCorrect)
+                {
+                    correctDropCount[label]++;
+                    if (correctDropCount[label] == 1)
+                    {
+                        label.Text = "What else?";
+                        label.BackColor = Color.Yellow;
+                    }
+                    else if (correctDropCount[label] == 2)
+                    {
+                        label.Text = "Correct!";
+                        label.BackColor = Color.Green;
+                        CheckAllLabelsCorrect();
+                    }
+                }
+                else
+                {
+                    label.Text = "Try Again";
+                    label.BackColor = Color.Red;
+                }
+            }
+        }
+
+        private void setting_Click(object sender, EventArgs e)
+        {
+            settingingame settingingame = new settingingame();
+            settingingame.Owner = this;
+            settingingame.StartPosition = FormStartPosition.CenterScreen;
+            settingingame.Location = this.Location;
+            settingingame.Show();
+        }
+
+        private void finish_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Form4 form4 = new Form4();
+            form4.StartPosition = FormStartPosition.CenterScreen;
+            form4.Location = this.Location;
+            form4.Show();
+        }
+
+        private void CheckAllLabelsCorrect()
+        {
+            bool allCorrect = true;
+            foreach (var count in correctDropCount.Values)
+            {
+                if (count < 2)
+                {
+                    allCorrect = false;
+                    break;
+                }
+            }
+            if (allCorrect)
+            {
+                MessageBox.Show("WHAT? HOW DID YOU DO THAT? DID YOU FIGURED OUT THE PATTERN? Ugh, anyway, congratulations... you can click Finish to go back to the Lessons Choosing Menu T_T");
+            }
+        }
+    }
+}
