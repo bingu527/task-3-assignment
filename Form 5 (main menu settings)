@@ -19,9 +19,7 @@ namespace Task3
         // Event handler for the Resume button click event
         private void resume_Click(object sender, EventArgs e)
         {
-            //Show the Owner Form (Main Menu)
-            this.Owner.Show();
-            //Hide the current form
+            //Hide the current form to reveal the owner form (Main Menu) behind it
             this.Hide();
         }
         // Event handler for the About me button click event
