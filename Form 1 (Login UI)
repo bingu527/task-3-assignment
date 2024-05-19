@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,69 +21,93 @@ namespace Task3
         {
 
         }
+        // Event handler for textBox2(password) 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
+            // This event is triggered when the text in textBox2 changes.
+            // It enables or disables the Login button based on whether textBox1(username), textBox2(password), and one of the radio buttons(gender choosing) are filled.
             button1.Enabled = !string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrEmpty(textBox2.Text) && (radioButton1.Checked || radioButton2.Checked);
         }
-
+        // Event handler for textBox1(username)
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            // This event is triggered when the text in textBox1 changes.
+            // It enables or disables the Login button based on whether textBox1(username), textBox2(password), and one of the radio buttons(gender choosing) are filled.
             button1.Enabled = !string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrEmpty(textBox2.Text) && (radioButton1.Checked || radioButton2.Checked);
         }
+        // Event handler for checkBox1(show password)
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
+            // This event is triggered when the state of checkBox1 changes (checked or not checked).
+            // It changes the PasswordChar property of textBox2 to either '*' or '\0' (to show or hide password characters) based on whether checkBox1 is checked.
             if (checkBox1.Checked)
             {
-                textBox2.PasswordChar = '\0';
+                textBox2.PasswordChar = '\0'; // Show password characters
             }
             else
             {
-                textBox2.PasswordChar = '*';
+                textBox2.PasswordChar = '*'; // Hide password characters
             }
         }
+         // Event handler radioButton1 (gender choosing-male option)
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
+            // This event is triggered when the state of radioButton1 changes.
+            // It enables or disables the Login button based on whether textBox1(username), textBox2(password), and one of the radio buttons(gender choosing) are filled.
             button1.Enabled = !string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrEmpty(textBox2.Text) && (radioButton1.Checked || radioButton2.Checked);
         }
-
+        // Event handler radioButton1 (gender choosing-female option)
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
+            // This event is triggered when the state of radioButton2 changes.
+            // It enables or disables the Login button based on whether textBox1(username), textBox2(password), and one of the radio buttons(gender choosing) are filled.
             button1.Enabled = !string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrEmpty(textBox2.Text) && (radioButton1.Checked || radioButton2.Checked);
         }
-
+        // Event handler for linkLabel1 ("Need Help?" label) click event
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            // This event is triggered when linkLabel1 is clicked.
+            // It shows a message box with a simple instruction message.
             MessageBox.Show("Just do what the instructions tell you to do, mate.");
         }
+        // Event handler for button1 (Login Button)
         private void button1_Click(object sender, EventArgs e)
         {
+            // This event is triggered when button1 is clicked.
+            // It checks the username and password, and if they meet certain criteria, shows a success message and opens Form2.
             string username = textBox1.Text;
             string password = textBox2.Text;
-
+            
             if (username.Length < 3)
-            {
+            {    
+                //If the username has less than 3 letters and is thus invalid, a message box will appear and tell players to retype a valid username
                 MessageBox.Show("Invalid username, must contain at least 3 letters", "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-
             }
             if (!password.Any(char.IsUpper) || password.Length < 6)
             {
+                //If the password doesn't have at least 1 Uppercase letter and has less than 6 letters and is thus invalid, a message box will appear and tell players to retype a valid password
                 MessageBox.Show("Invalid password, must contain at least 1 Uppercase letter and at least 6 letters", "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            // If the username and password meet the criteria, show a success message and open Form2 (Start Menu)
             MessageBox.Show("Login Successful.");
+            // The usernames players typed in this form will be stored and passed to form 2
             Form2 Start = new Form2(username);
             Start.Owner = this;
             Start.StartPosition = FormStartPosition.Manual;
             Start.Location = this.Location;
             Start.Show();
+            //Hide current form
             this.Hide();
         }
-
+        //Event handler for instructions link ("Don't know how? Click me!" label) click event
         private void instructions_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            // This event is triggered when instructions linkLabel is clicked.
+            // It shows a message box with instructions for the players to type in their usernames
             MessageBox.Show("Type your name in the empty space next to the 'string username ='", "Instructions", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
         }
     }
 }
