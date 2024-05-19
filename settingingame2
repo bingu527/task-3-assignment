@@ -16,38 +16,48 @@ namespace Task3
         {
             InitializeComponent();
         }
-
+        // Event handler for the Resume button click event
         private void resume_Click(object sender, EventArgs e)
         {
+            // Show the Owner (depends on what part of the lesson you are on) and Hide the current form
+            // Both lesson4_6 and lesson4_6part2 are the owners of this form, if you are currently on lesson4_6part2 for example, clicking resume will close this form and show lesson1_3
+            // The same goes for lesson 4_6
             this.Owner.Show();
             this.Hide();
         }
-
+        // Event handler for the About me button click event
         private void aboutme_Click(object sender, EventArgs e)
         {
+            // A message box appears as players click the About me button, clicking OK will automatically close the message box
             MessageBox.Show("I'm Nghia, enjoy the game.", "About Me", MessageBoxButtons.OK, MessageBoxIcon.None);
         }
-
+        // Event handler for the Return to Lessons Choosing button click event
         private void returntomenu_Click(object sender, EventArgs e)
         {
+            // Hide the current form
             this.Hide();
+            // Open Form 4(Lessons Choosing Menu)
             Form4 form4 = new Form4();
             form4.StartPosition = FormStartPosition.CenterScreen;
             form4.Location = this.Location;
+            // Show Form 4
             form4.Show();
+            // Hide the current part of the lesson that you are on (either lesson4_6 or lesson4_6part2)
             this.Owner.Hide();
         }
-
+        // Event handler for the Exit button click event
         private void exit_Click(object sender, EventArgs e)
         {
+            // The same as settingingame1, a message box will appear to ask players' confirmation of closing the application
             DialogResult dr = MessageBox.Show("ARE YOU SURE YOU WANT TO QUIT??", "CONFIRMATION MESSAGE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dr == DialogResult.Yes)
             {
+                // If click yes, close everything
                 Application.Exit();
             }
             else
             {
-
+                // If click no, do nothing
             }
         }
     }
