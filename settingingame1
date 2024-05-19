@@ -34,12 +34,13 @@ namespace Task3
         // Event handler for the Return to Lessons Choosing button click event
         private void returntomenu_Click(object sender, EventArgs e)
         {
-            //H ide the current form
+            // Hide the current form
             this.Hide();
+            // Open Form 4(Lessons Choosing Menu)
             Form4 form4 = new Form4();
             form4.StartPosition = FormStartPosition.CenterScreen;
             form4.Location = this.Location;
-            // Show Form 4 (Lessons Choosing Menu)
+            // Show Form 4
             form4.Show();
             // Hide the current part of the lesson that you are on (either lesson1_3 or lesson1_3part2)
             this.Owner.Hide();
