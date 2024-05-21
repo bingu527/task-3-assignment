@@ -12,120 +12,202 @@ namespace Task3
 {
     public partial class Form6 : Form
     {
-        int questionnumber = 1;
-        int currentscore;
-        int totalquestions;
-        int correctanswers;
-        bool years1To3Selected = false;
+        int questionnumber = 1; // The current question number
+        int currentscore; // The current score of the user
+        int totalquestions; // Total number of questions in the quiz
+        int correctanswers; // The correct answer based on the assigned button tag for the current question
+        bool years1To3Selected = false; // Flag to check if the set of questions for years 1 to 3 are selected
 
         public Form6()
         {
             InitializeComponent();
-            DisplayQuestion(questionnumber);
-            totalquestions = 5;
+            DisplayQuestion(questionnumber); // Display the first question when the form pops up
+            totalquestions = 5; // Set total questions to 5 for each set of questions
         }
+
         private void CheckAnswerEvent(object sender, EventArgs e)
         {
+            // This event handler is triggered when an answer button is clicked
             var senderObject = (Button)sender;
-            int buttonTag = Convert.ToInt32(senderObject.Tag);
+            int buttonTag = Convert.ToInt32(senderObject.Tag); // Get the tag of the clicked button
+            // Event handler when the answer is correct
             if (buttonTag == correctanswers)
             {
-                MessageBox.Show("Correct!", "Message", MessageBoxButtons.OK);
-                currentscore++;
+                MessageBox.Show("Correct!", "Message", MessageBoxButtons.OK); // Show correct answer message
+                currentscore++; // Increment the score
             }
-            else
+            else // event handler when the answer is incorrect
             {
-                MessageBox.Show("Incorrect:(", "Message", MessageBoxButtons.OK);
+                MessageBox.Show("Incorrect:(", "Message", MessageBoxButtons.OK); // Show incorrect answer message
             }
+            
             if (questionnumber == totalquestions)
             {
+                // If the user has answered all questions, show a completion message
                 MessageBox.Show(
                     "You have completed the QUIZZES!" + Environment.NewLine +
                     "You have answered " + currentscore + " questions correctly." + Environment.NewLine +
                     "Click OK if you wish to play again"
-                 );
+                );
 
+                // Reset the score and questions for replay
                 currentscore = 0;
                 questionnumber = 0;
                 DisplayQuestion(questionnumber);
             }
-            questionnumber++;
-            DisplayQuestion(questionnumber);
+
+            questionnumber++; // Move to the next question after the current question was answered, regardless of whether it is correct or not.
+            DisplayQuestion(questionnumber); // Display the next question
         }
 
         private void DisplayQuestion(int questionnumber)
         {
+            // This method displays the question based on the question number and the selected category
+            // when the sets of questions for years 1 to 3 is selected, years1To3Selected == true
             if (years1To3Selected == true)
             {
+                // Questions for years 1 to 3
                 switch (questionnumber)
                 {
                     case 1:
-                        label2.Text = "blablabla?";
-                        button3.Text = "bla?";
-                        button4.Text = "Ok";
-                        button5.Text = "Orange";
-                        button6.Text = "Red";
-                        correctanswers = 1;
+                        // question
+                        label2.Text = "What button on your keyboard is used to help our soccer character move up?";
+                        // Answers (only one correct answer)
+                        button3.Text = "Arrow Up";
+                        button4.Text = "Arrow Down";
+                        button5.Text = "Arrow Left";
+                        button6.Text = "Arrow Right";
+                        correctanswers = 1; // Correct answer is button 3 (Arrow Up)
                         break;
 
                     case 2:
-                        label2.Text = "bloblobloblo?";
-                        button3.Text = "bla?";
-                        button4.Text = "Ok";
-                        button5.Text = "Orange";
-                        button6.Text = "Red";
-                        correctanswers = 2;
+                        // question
+                        label2.Text = "What button on your keyboard is used to help our soccer character move down?";
+                        // Answers (only one correct answer)
+                        button3.Text = "Arrow Up";
+                        button4.Text = "Arrow Down";
+                        button5.Text = "Arrow Left";
+                        button6.Text = "Arrow Right";
+                        correctanswers = 2; // Correct answer is button 4 (Arrow Down)
+                        break;
+
+                    case 3:
+                        // question
+                        label2.Text = "What button on your keyboard is used to help our soccer character move right?";
+                        // Answers (only one correct answer)
+                        button3.Text = "Arrow Up";
+                        button4.Text = "Arrow Down";
+                        button5.Text = "Arrow Left";
+                        button6.Text = "Arrow Right";
+                        correctanswers = 4; // Correct answer is button 6 (Arrow Right)
+                        break;
+
+                    case 4:
+                        // question
+                        label2.Text = "What button on your keyboard is used to help our soccer character move left?";
+                        // Answers (only one correct answer)
+                        button3.Text = "Arrow Up";
+                        button4.Text = "Arrow Down";
+                        button5.Text = "Arrow Left";
+                        button6.Text = "Arrow Right";
+                        correctanswers = 3; // Correct answer is button 5 (Arrow Left)
+                        break;
+
+                    case 5:
+                        // question
+                        label2.Text = "How do you get through obstacles?";
+                        // Answers (only one correct answer)
+                        button3.Text = "Go around them";
+                        button4.Text = "Go into them";
+                        button5.Text = "Kick them out of the way";
+                        button6.Text = "Become an obstacle";
+                        correctanswers = 1; // Correct answer is button 3 (Go around them)
                         break;
                 }
             }
             else
             {
+                // Questions for years 4 to 6
                 switch (questionnumber)
                 {
-                case 1:
-                    label2.Text = "bleeeeeeee?";
-                    button3.Text = "bla?";
-                    button4.Text = "Ok";
-                    button5.Text = "Orange";
-                    button6.Text = "Red";
-                    correctanswers = 3;
-                    break;
-                case 2:
-                    label2.Text = "bleeeeeeorioeeee?";
-                    button3.Text = "bla?";
-                    button4.Text = "Ok";
-                    button5.Text = "Orange";
-                    button6.Text = "Red";
-                    correctanswers = 2;
-                    break;
-                case 3:
-                    label2.Text = "bleinnnnnnnn?";
-                    button3.Text = "bla?";
-                    button4.Text = "Ok";
-                    button5.Text = "Orange";
-                    button6.Text = "Red";
-                    correctanswers = 4;
-                    break;
+                    case 1:
+                        // question
+                        label2.Text = "What part on the mouse is used to drag the blocks?";
+                        // Answers (only one correct answer)
+                        button3.Text = "Right mouse button";
+                        button4.Text = "Left mouse button";
+                        button5.Text = "Middle mouse button";
+                        button6.Text = "The body of the mouse";
+                        correctanswers = 1; // Correct answer is button 3 (red box)
+                        break;
+
+                    case 2:
+                        // question
+                        label2.Text = "What is 2500x3?";
+                        // Answers (only one correct answer)
+                        button3.Text = "699";
+                        button4.Text = "77777";
+                        button5.Text = "7500";
+                        button6.Text = "100";
+                        correctanswers = 3; // Correct answer is button 5 (green box)
+                        break;
+
+                    case 3:
+                        // question
+                        label2.Text = "How can you drag the blocks to the correct labels?";
+                        // Answers (only one correct answer)
+                        button3.Text = "Click and hold the right mouse button and then hover it to the label";
+                        button4.Text = "You tell it to move by itself";
+                        button5.Text = "Scroll the middle mouse button";
+                        button6.Text = "Slap the mouse's body";
+                        correctanswers = 1; // Correct answer is button 3 (red box)
+                        break;
+
+                    case 4:
+                        // question
+                        label2.Text = "What is 9990/10?";
+                        // Answers (only one correct answer)
+                        button3.Text = "Mouse";
+                        button4.Text = "The creator";
+                        button5.Text = "123456";
+                        button6.Text = "999";
+                        correctanswers = 4; // Correct answer is button 6 (yellow box)
+                        break;
+
+                    case 5:
+                        // question
+                        label2.Text = "What is 00000 + 1?";
+                        // Answers (only one correct answer)
+                        button3.Text = "Bomboclat";
+                        button4.Text = "000";
+                        button5.Text = "Zookeeper";
+                        button6.Text = "1";
+                        correctanswers = 4; // Correct answer is button 6 (yellow box)
+                        break;
                 }
             }
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            // Event handler for selecting questions for years 1 to 3
             years1To3Selected = true;
             questionnumber = 1;
-            DisplayQuestion(questionnumber);
+            DisplayQuestion(questionnumber); // display questions for years 1 to 3
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            // Event handler for selecting questions for years 4 to 6
             years1To3Selected = false;
             questionnumber = 1;
-            DisplayQuestion(questionnumber);
+            DisplayQuestion(questionnumber); // display questions for years 4 to 6
         }
 
         private void Return_Click(object sender, EventArgs e)
         {
-                this.Close();
-            }
+            // Event handler for closing the form and returning to the previous form (Main Menu)
+            this.Close();
         }
     }
+}
+     
