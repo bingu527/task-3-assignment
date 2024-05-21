@@ -1,1 +1,122 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+
+namespace Task3
+{
+    public partial class lesson1_3part2 : Form
+    {
+        int size = 10; // The size of the grid (10x10)
+        int x = 0; // Initial X position of the player
+        int y = 2; // Initial Y position of the player
+        int[] goal = { 5, 9 }; // Position of the goal (Y, X)
+        PictureBox[,] pictures = new PictureBox[10, 10]; // Array to hold PictureBox controls representing the grid
+        int[,] obstacles = { { 3, 3 }, { 5, 7 }, { 8, 2 }, { 6, 6 }, { 2, 2 }, { 5, 1 }, { 9, 1 }, { 4, 3 }, { 2, 4 }, { 6, 4 }, { 0, 5 }, 
+                             { 4, 5 }, { 5, 5 }, { 3, 6 }, { 8, 6 }, { 8, 7 }, { 1, 7 }, { 0, 8 }, { 2, 8 }, { 7, 9 } }; // Obstacle positions (Y, X)
+        string picCheck = Directory.GetCurrentDirectory() + "/Images/grass.png"; // Path to grass image
+        string picHand = Directory.GetCurrentDirectory() + "/Images/vialli-chelsea.png"; // Path to player image
+        string picGoal = Directory.GetCurrentDirectory() + "/Images/goal.png"; // Path to goal image
+        string picObstacle = Directory.GetCurrentDirectory() + "/Images/rashford.png"; // Path to obstacle image
+
+        public lesson1_3part2()
+        {
+            InitializeComponent();
+
+            // Initialize the grid with grass images
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    pictures[i, j] = new PictureBox();
+                    pictures[i, j].Image = Image.FromFile(picCheck);
+                    pictures[i, j].SizeMode = PictureBoxSizeMode.StretchImage;
+                    table.Controls.Add(pictures[i, j]);
+                }
+            }
+
+            // Set obstacles on the grid (they will overlay the grass images assigned at their positions)
+            for (int i = 0; i < obstacles.GetLength(0); i++)
+            {
+                pictures[obstacles[i, 0], obstacles[i, 1]].Image = Image.FromFile(picObstacle);
+            }
+            // Set the goal position on the grid (will overlay the grass image assigned there)
+            pictures[goal[0], goal[1]].Image = Image.FromFile(picGoal);
+            // Set the initial player position on the grid (will overlay the grass image assigned there)
+            pictures[y, x].Image = Image.FromFile(picHand);
+        }
+
+        private void setting_Click(object sender, EventArgs e)
+        {
+            // Open the settings form
+            settingingame settingingame = new settingingame();
+            settingingame.Owner = this; // Set the current form as the owner of the settings form
+            settingingame.StartPosition = FormStartPosition.CenterScreen; // Center the settings form on the screen
+            settingingame.Location = this.Location; // Set the location of the settings form
+            settingingame.Show(); // Show the settings form
+        }
+
+        private void lesson1_3part2_KeyDown(object sender, KeyEventArgs e)
+        {
+            int newX = x; // New X position to be calculated
+            int newY = y; // New Y position to be calculated
+
+            // Determine new position based on key press
+            if (e.KeyCode == Keys.Right && x < size - 1) newX++;
+            if (e.KeyCode == Keys.Left && x > 0) newX--;
+            if (e.KeyCode == Keys.Up && y > 0) newY--;
+            if (e.KeyCode == Keys.Down && y < size - 1) newY++;
+
+            // Check if new position is an obstacle
+            bool isObstacle = false;
+            for (int i = 0; i < obstacles.GetLength(0); i++)
+            {
+                if (newX == obstacles[i, 1] && newY == obstacles[i, 0])
+                {
+                    isObstacle = true; // If new position is an obstacle, set flag to true, this way, character won't be able to walk through the obstacle or overlay the obstacle)
+                    break;
+                }
+            }
+
+            // If new position is not an obstacle, player can move
+            if (!isObstacle)
+            {
+                pictures[y, x].Image = Image.FromFile(picCheck); // Set old position to grass
+                x = newX; // Update X position
+                y = newY; // Update Y position
+                pictures[y, x].Image = Image.FromFile(picHand); // Set new position to player image
+
+                // Check if player has reached the goal
+                if (x == goal[1] && y == goal[0])
+                {
+                    MessageBox.Show("Congratulations, Champion! You have successfully conquered the cup." + Environment.NewLine +
+                                    "Click Finish to return to the Lessons Choosing Menu."); // Show completion message and guidance to how to quit the lesson
+                }
+            }
+        }
+
+        private void Ownerofsettinggame(object sender, EventArgs e)
+        {
+            // Set the owner of the settings form to the current form (to prevent error when returning to Lessons Choosing Menu, as the setting form will close itself and the owner to show the Lessons Choosing menu)
+            settingingame settingingame = new settingingame();
+            settingingame.Owner = this;
+        }
+
+        private void finish_Click(object sender, EventArgs e)
+        {
+            // Close the current form and open the lessons choosing menu
+            this.Close();
+            Form4 form4 = new Form4();
+            form4.StartPosition = FormStartPosition.CenterScreen; // Center the new form on the screen
+            form4.Location = this.Location; // Set the location of the new form
+            form4.Show(); // Show the new form
+        }
+    }
+}
 
