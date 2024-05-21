@@ -1,1 +1,122 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+
+namespace Task3
+{
+    public partial class lesson1_3 : Form
+    {
+        int size = 4; // The size of the grid (4x4)
+        int x = 0; // Initial x position of the character
+        int y = 2; // Initial y position of the character
+        PictureBox[,] pictures = new PictureBox[4, 4]; // Array to hold the picture boxes
+        string picCheck = Directory.GetCurrentDirectory() + "/images/grass.png"; // Path to the grass image
+        string picHand = Directory.GetCurrentDirectory() + "/images/vialli-chelsea.png"; // Path to the character image
+        bool nextButtonClicked = false; // Flag to check if the next button is clicked
+
+        public lesson1_3()
+        {
+            InitializeComponent();
+            // Initialize the 4x4 grid with PictureBox controls
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    pictures[i, j] = new PictureBox(); // Create a new PictureBox for every row and column in the grid
+                    pictures[i, j].Image = Image.FromFile(picCheck); // Set the image of the picture boxes to grass
+                    pictures[i, j].SizeMode = PictureBoxSizeMode.StretchImage; // Set the image size mode
+                    table.Controls.Add(pictures[i, j]); // Add the PictureBox to the table control
+                }
+            }
+            // Set the initial position of the character image (the character's initial position will overlay the picture box assigned there)
+            pictures[y, x].Image = Image.FromFile(picHand);
+        }
+
+        private void setting_Click(object sender, EventArgs e)
+        {
+            // Event handler for the settings button click
+            settingingame settingingame = new settingingame();
+            settingingame.Owner = this; // Set the owner of the settings form to this form
+            settingingame.StartPosition = FormStartPosition.CenterScreen; // Center the settings form on the screen
+            settingingame.Location = this.Location; // Set the location of the settings form to the current form's location
+            settingingame.Show(); // Show the settings form
+        }
+
+        private void next_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Event handler for key press events
+            if (e.KeyCode == Keys.Right)
+            {
+                // If the right arrow key is pressed
+                if (x < size - 1) // Check if the character can move right or has reached the border of the table
+                {
+                    pictures[y, x].Image = Image.FromFile(picCheck); // Set the current position to grass
+                    x++; // Move right
+                    pictures[y, x].Image = Image.FromFile(picHand); // Set the new position to the character image
+                }
+            }
+
+            if (e.KeyCode == Keys.Left)
+            {
+                // If the left arrow key is pressed
+                if (x > 0) // Check if the character can move left has reached the border of the table
+                {
+                    pictures[y, x].Image = Image.FromFile(picCheck); // Set the current position to grass
+                    x--; // Move left
+                    pictures[y, x].Image = Image.FromFile(picHand); // Set the new position to the character image
+                }
+            }
+
+            if (e.KeyCode == Keys.Up)
+            {
+                // If the up arrow key is pressed
+                if (y > 0) // Check if the character can move up has reached the border of the table
+                {
+                    pictures[y, x].Image = Image.FromFile(picCheck); // Set the current position to grass
+                    y--; // Move up
+                    pictures[y, x].Image = Image.FromFile(picHand); // Set the new position to the character image
+                }
+            }
+
+            if (e.KeyCode == Keys.Down)
+            {
+                // If the down arrow key is pressed
+                if (y < size - 1) // Check if the character can move down has reached the border of the table
+                {
+                    pictures[y, x].Image = Image.FromFile(picCheck); // Set the current position to grass
+                    y++; // Move down
+                    pictures[y, x].Image = Image.FromFile(picHand); // Set the new position to the character image
+                }
+            }
+        }
+
+        private void next_Click(object sender, EventArgs e)
+        {
+            // Event handler for the next button click
+            if (!nextButtonClicked)
+            {
+                // If the next button is clicked for the first time
+                label2.Visible = false; // Hide instruction 1
+                label1.Visible = true; // Show instruction 2
+                nextButtonClicked = true; // Set the flag to true
+            }
+            else
+            {
+                // If the next button is clicked again
+                lesson1_3part2 lesson1_3part2 = new lesson1_3part2(); // Create a new instance of the next lesson form
+                lesson1_3part2.StartPosition = FormStartPosition.CenterScreen; // Center the new form on the screen
+                lesson1_3part2.Location = this.Location; // Set the location of the new form to the current form's location
+                lesson1_3part2.Show(); // Show the new form (the second part of the lesson)
+                this.Hide(); // Hide the current form
+            }
+        }
+    }
+}
 
